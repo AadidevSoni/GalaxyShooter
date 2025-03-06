@@ -31,6 +31,10 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
 
     private bool isSpeedBoostActive = false;
 
+    [SerializeField]
+    private GameObject _shieldsPrefab;
+    private bool isShieldsActive = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -128,7 +132,11 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
     }
 
     public void Damage()
-    {
+    {   
+        if(isShieldsActive == true){
+            disableShields();
+            return;
+        }
         _lives -= 1;
         
         if(_lives < 1){
@@ -156,11 +164,17 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
     }   
 
     IEnumerator SpeedBoostDisableRoutine(){
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(5.0f);
         isSpeedBoostActive = false;
     }
 
     public void collectedShields(){
+        isShieldsActive = true;
+        _shieldsPrefab.SetActive(true);
+    }
 
+    public void disableShields(){
+        isShieldsActive = false;
+        _shieldsPrefab.SetActive(false);
     }
 }
