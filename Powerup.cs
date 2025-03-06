@@ -42,6 +42,7 @@ public class Powerup : MonoBehaviour
                         break;
                     default:
                         Debug.Log("ERROR");
+                        break;
                 }
                 
             }

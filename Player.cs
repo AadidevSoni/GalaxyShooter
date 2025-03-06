@@ -9,7 +9,8 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
     //public float speed = 3.5f;   to modify it in unity
     //OR SERIALIE PRIVATE
     [SerializeField]
-    private float _speed = 3.5f;
+    private float _speed = 10f;
+    private float speedMultiplier = 2;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -23,11 +24,12 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
 
     private Spawn_Manager _spawnManager;
 
-    [SerializeField]
     private bool isTrippleShotActive = false;
 
     [SerializeField]
     private GameObject _trippleShotPrefab;
+
+    private bool isSpeedBoostActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -63,8 +65,16 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
 
         //Moves the transform in the direction and distance of translation.
         //transform.Translate(Vector3.right); Player moves infinitely to the right in speed of sound    -  we are moving the player 1m per frame 60 times per sec i.e, 60m/sec
-        transform.Translate(Vector3.right * horizontalInput * _speed * Time.deltaTime);  //Time.delataTime converts from frame dependent to real word seconds
-        transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
+
+        if(isSpeedBoostActive == true){
+            float speed = _speed * speedMultiplier;
+            transform.Translate(Vector3.right * horizontalInput * speed * Time.deltaTime);  
+            transform.Translate(Vector3.up * verticalInput * speed * Time.deltaTime);
+        }else{
+            transform.Translate(Vector3.right * horizontalInput * _speed * Time.deltaTime);  //Time.delataTime converts from frame dependent to real word seconds
+            transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
+        }
+
         //transform.Translate(new Vector3(1,0,0));   when we use new vector3, we must provide the coordinates
 
         //OPTIMIZED TRANSLATION CODE
@@ -138,5 +148,19 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
         
         yield return new WaitForSeconds(5.0f);
         isTrippleShotActive = false;
+    }
+
+    public void collectedSpeedBoost(){
+        isSpeedBoostActive = true;
+        StartCoroutine(SpeedBoostDisableRoutine());
+    }   
+
+    IEnumerator SpeedBoostDisableRoutine(){
+        yield return new WaitForSeconds(10f);
+        isSpeedBoostActive = false;
+    }
+
+    public void collectedShields(){
+
     }
 }
