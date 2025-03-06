@@ -149,6 +149,7 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
             return;
         }
         _lives -= 1;
+        _uiManager.UpdateLives(_lives);
         
         if(_lives < 1){
             //communicate with spawn manager

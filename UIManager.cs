@@ -10,6 +10,12 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI _scoreText;
     private int _playerScore;
 
+    [SerializeField]
+    private Sprite[] _livesSprites;
+
+    [SerializeField]
+    private Image _livesImg;
+
     // Start is called before the first frame update
     void Start()
     {   
@@ -19,5 +25,9 @@ public class UIManager : MonoBehaviour
     public void UpdateScore(int playerScore)
     {   
         _scoreText.text = "Score: " + playerScore;
+    }
+
+    public void UpdateLives(int currentLives){
+        _livesImg.sprite = _livesSprites[currentLives];
     }
 }
