@@ -23,6 +23,12 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
 
     private Spawn_Manager _spawnManager;
 
+    [SerializeField]
+    private bool isTrippleShotActive = true;
+
+    [SerializeField]
+    private GameObject _trippleShotPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,7 +108,12 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
         //to listen for a space key press
     
         nextFire = Time.time + _fireRate;
-        Instantiate(_laserPrefab,new Vector3(transform.position.x,transform.position.y + 1.05f,0),Quaternion.identity);  //spawning a laser  (prefab,position,rotation)  quaternion is used to measure rotation and its 0 here
+        if(isTrippleShotActive == true){
+            Instantiate(_trippleShotPrefab,new Vector3(transform.position.x,transform.position.y + 1.05f,0),Quaternion.identity);
+        }else{
+            Instantiate(_laserPrefab,new Vector3(transform.position.x,transform.position.y,0),Quaternion.identity);  //spawning a laser  (prefab,position,rotation)  quaternion is used to measure rotation and its 0 here 
+        }
+        
         //we want to spawn the laser 9.8 units above the player
     }
 
