@@ -24,7 +24,7 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
     private Spawn_Manager _spawnManager;
 
     [SerializeField]
-    private bool isTrippleShotActive = true;
+    private bool isTrippleShotActive = false;
 
     [SerializeField]
     private GameObject _trippleShotPrefab;
@@ -109,9 +109,9 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
     
         nextFire = Time.time + _fireRate;
         if(isTrippleShotActive == true){
-            Instantiate(_trippleShotPrefab,new Vector3(transform.position.x,transform.position.y + 1.05f,0),Quaternion.identity);
+            Instantiate(_trippleShotPrefab,new Vector3(transform.position.x - 0.1f,transform.position.y + 0.8f,0),Quaternion.identity);
         }else{
-            Instantiate(_laserPrefab,new Vector3(transform.position.x,transform.position.y,0),Quaternion.identity);  //spawning a laser  (prefab,position,rotation)  quaternion is used to measure rotation and its 0 here 
+            Instantiate(_laserPrefab,new Vector3(transform.position.x,transform.position.y + 1.05f,0),Quaternion.identity);  //spawning a laser  (prefab,position,rotation)  quaternion is used to measure rotation and its 0 here 
         }
         
         //we want to spawn the laser 9.8 units above the player
@@ -127,5 +127,16 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
             Destroy(this.gameObject);
         }
 
+    }
+
+    public void collectedTrippleShot(){
+        isTrippleShotActive = true;
+        StartCoroutine(TrippleShotPowerUpDisableRoutine());
+    }
+
+    IEnumerator TrippleShotPowerUpDisableRoutine(){
+        
+        yield return new WaitForSeconds(5.0f);
+        isTrippleShotActive = false;
     }
 }

@@ -21,6 +21,10 @@ public class Laser : MonoBehaviour
 
         //if laser position > 7 -> dstory laser
         if(transform.position.y >= 7f){
+            //destroying tripple shot as it has a parent so it doesnt get destoryed
+            if(transform.parent != null){
+                Destroy(transform.parent.gameObject);
+            }
             Destroy(this.gameObject);  //Destroy(this.gameObject,5f); to delete after 5 sec 
         }
     }
