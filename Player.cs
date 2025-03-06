@@ -35,6 +35,11 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
     private GameObject _shieldsPrefab;
     private bool isShieldsActive = false;
 
+    [SerializeField]
+    private int _score;
+
+    private UIManager _uiManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +52,12 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
 
         if(_spawnManager == null){
             Debug.LogError("The Spawn manager is null");
+        }
+
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+        if(_uiManager == null){
+            Debug.LogError("The UI manager is null");
         }
     }
 
@@ -176,5 +187,10 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
     public void disableShields(){
         isShieldsActive = false;
         _shieldsPrefab.SetActive(false);
+    }
+
+    public void AddScore(int points){
+        _score += points;
+        _uiManager.UpdateScore(_score);
     }
 }
