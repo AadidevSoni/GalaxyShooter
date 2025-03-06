@@ -11,10 +11,14 @@ public class Spawn_Manager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyContainer;
     private bool _stopSpawning = false;
+
+    [SerializeField]
+    private GameObject _trippleShotPrefab;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnRoutine());
+        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(spawnPowerUpRoutine());
     }
 
     // Update is called once per frame
@@ -27,7 +31,7 @@ public class Spawn_Manager : MonoBehaviour
     //Coroutines can be used for something to happen in certain intervals of time  ,   can pause execution, return control and come back to where it paused
     //Create a couroutine of time IEnumerator which yield events
 
-    IEnumerator SpawnRoutine()
+    IEnumerator SpawnEnemyRoutine()
     {
         //yield return null    -   waits 1 frame
 
@@ -44,6 +48,17 @@ public class Spawn_Manager : MonoBehaviour
             yield return new WaitForSeconds(spawnTime);
         }
         //we will never get here
+    }
+
+    IEnumerator spawnPowerUpRoutine(){
+
+        while(_stopSpawning == false){
+            float waitTime = Random.Range(3,7);
+            Vector3 posToSpawn = new Vector3(Random.Range(-9f,9f),6.4f,0);
+            Instantiate(_trippleShotPrefab,posToSpawn,Quaternion.identity);
+            yield return new WaitForSeconds(waitTime);
+        }
+
     }
 
     public void onPlayerDeath(){
