@@ -19,13 +19,20 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _gameOver;
 
-    private 
+    [SerializeField]
+    private TextMeshProUGUI _restartText;
+
+    private GameManager _gameManager;
 
     // Start is called before the first frame update
     void Start()
     {   
         _scoreText.text = "Score: " + 0;
         _gameOver.gameObject.SetActive(false);
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if(_gameManager == null){
+            Debug.LogError("Game Manager is null");
+        }
     }
 
     public void UpdateScore(int playerScore)
@@ -37,9 +44,15 @@ public class UIManager : MonoBehaviour
         _livesImg.sprite = _livesSprites[currentLives];
 
         if(currentLives == 0){
-            _gameOver.gameObject.SetActive(true);
-            StartCoroutine(gameOverRoutine());
+            gameOverSequence();
         }
+    }
+
+    void gameOverSequence(){
+        _gameOver.gameObject.SetActive(true);
+        _restartText.gameObject.SetActive(true);
+        _gameManager.GameOver();
+        StartCoroutine(gameOverRoutine());
     }
 
     IEnumerator gameOverRoutine(){
