@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     private void Update(){
         if(Input.GetKeyDown(KeyCode.R) && _isGameOver == true){
-            SceneManager.LoadScene(0); //integer in the build scene manager
+            SceneManager.LoadScene(1); //integer in the build scene manager
         }
     }
 
