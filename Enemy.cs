@@ -8,10 +8,21 @@ public class Enemy : MonoBehaviour
     private float _enemySpeed = 3.5f;
 
     private Player _player;
+
+    private Animator _anim;
     // Start is called before the first frame update
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>(); //now it will only be called one time instead of 100s of times in methods as it is cached now 
+        if(_player == null){
+            Debug.LogError("Player is null");
+        }
+
+        _anim = GetComponent<Animator>();
+
+        if(_anim == null){
+            Debug.LogError("Animator is null");
+        }
     }
 
     // Update is called once per frame
@@ -43,7 +54,11 @@ public class Enemy : MonoBehaviour
             if(player != null){
                 player.Damage();
             }
-            Destroy(this.gameObject);
+
+            _anim.SetTrigger("OnEnemyDeath"); //OnEnemyDeath is a tigger in the animation of enemy explosion which then triggers the explosion from the empty state
+            //e have to destroy the object only after the animatiom is done playing
+            _enemySpeed = 0;
+            Destroy(this.gameObject,2.8f); //destroy after 2.8 sec
         }
 
         //if other is laser
@@ -55,7 +70,10 @@ public class Enemy : MonoBehaviour
                 int randomPoint = Random.Range(5,10);
                 _player.AddScore(randomPoint);
             }
-            Destroy(this.gameObject);
+
+            _anim.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0;
+            Destroy(this.gameObject,2.8f);
         }
     }
 }

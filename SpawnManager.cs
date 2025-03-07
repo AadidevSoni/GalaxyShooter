@@ -17,6 +17,10 @@ public class Spawn_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
+    }
+
+    public void StartSpawning(){
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(spawnPowerUpRoutine());
     }
@@ -32,7 +36,8 @@ public class Spawn_Manager : MonoBehaviour
     //Create a couroutine of time IEnumerator which yield events
 
     IEnumerator SpawnEnemyRoutine()
-    {
+    {   
+        yield return new WaitForSeconds(3.0f);
         //yield return null    -   waits 1 frame
 
         //then this line is called
@@ -42,7 +47,7 @@ public class Spawn_Manager : MonoBehaviour
 
         //we need this to happen forever so infinite loop
         while(_stopSpawning == false){
-            Vector3 posToSpawn = new Vector3(Random.Range(-9f,9f),6.4f,0);
+            Vector3 posToSpawn = new Vector3(Random.Range(-9.7f,9.7f),6.4f,0);
             GameObject newEnemy = Instantiate(_enemyPrefab,posToSpawn,Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;  // both should be transform for enemies to be child of container
             yield return new WaitForSeconds(spawnTime);
@@ -51,7 +56,7 @@ public class Spawn_Manager : MonoBehaviour
     }
 
     IEnumerator spawnPowerUpRoutine(){
-
+        yield return new WaitForSeconds(6f);
         while(_stopSpawning == false){
             Vector3 posToSpawn = new Vector3(Random.Range(-9f,9f),6.4f,0);
             int randomPowerUp = Random.Range(0,3); //3 excluded
