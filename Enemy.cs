@@ -10,6 +10,9 @@ public class Enemy : MonoBehaviour
     private Player _player;
 
     private Animator _anim;
+
+    private AudioSource _audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +25,11 @@ public class Enemy : MonoBehaviour
 
         if(_anim == null){
             Debug.LogError("Animator is null");
+        }
+
+        _audioSource = GetComponent<AudioSource>();
+        if(_audioSource == null){
+            Debug.LogError("Audio source of player not found");
         }
     }
 
@@ -58,6 +66,9 @@ public class Enemy : MonoBehaviour
             _anim.SetTrigger("OnEnemyDeath"); //OnEnemyDeath is a tigger in the animation of enemy explosion which then triggers the explosion from the empty state
             //e have to destroy the object only after the animatiom is done playing
             _enemySpeed = 0;
+
+            _audioSource.Play();
+
             Destroy(this.gameObject,2.8f); //destroy after 2.8 sec
         }
 
@@ -73,6 +84,9 @@ public class Enemy : MonoBehaviour
 
             _anim.SetTrigger("OnEnemyDeath");
             _enemySpeed = 0;
+
+            _audioSource.Play();
+
             Destroy(this.gameObject,2.8f);
         }
     }

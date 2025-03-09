@@ -10,10 +10,9 @@ public class Powerup : MonoBehaviour
     [SerializeField] 
     private int powerupID; //0-tripple shot, 1-speed, 2-shield
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
+    [SerializeField]
+    private AudioClip clip;
 
     // Update is called once per frame
     void Update()
@@ -28,6 +27,9 @@ public class Powerup : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other){
         if(other.tag == "Player"){
             Player player = other.transform.GetComponent<Player>();
+
+            AudioSource.PlayClipAtPoint(clip,transform.position); //inorder to play the clip even if the object is being destroyed
+
             if(player != null){
                 
                 switch(powerupID){

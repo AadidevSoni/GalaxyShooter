@@ -40,6 +40,17 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
 
     private UIManager _uiManager;
 
+    [SerializeField]
+    private GameObject _leftHurt;
+
+    [SerializeField]
+    private GameObject _rightHurt;
+
+    [SerializeField]
+    private AudioClip _laserSoundClip;
+
+    private AudioSource _audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +69,13 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
 
         if(_uiManager == null){
             Debug.LogError("The UI manager is null");
+        }
+
+        _audioSource = GetComponent<AudioSource>();
+        if(_audioSource == null){
+            Debug.LogError("The  audio source is null");
+        }else{
+            _audioSource.clip = _laserSoundClip;
         }
     }
 
@@ -140,6 +158,9 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
         }
         
         //we want to spawn the laser 9.8 units above the player
+
+        //audio
+        _audioSource.Play();
     }
 
     public void Damage()
@@ -150,6 +171,12 @@ public class Player : MonoBehaviour //Allows unity to drag and drop scripts and 
         }
         _lives -= 1;
         _uiManager.UpdateLives(_lives);
+
+        if(_lives == 2){
+            _leftHurt.SetActive(true);
+        }else if(_lives == 1){
+            _rightHurt.SetActive(true);
+        }
         
         if(_lives < 1){
             //communicate with spawn manager
